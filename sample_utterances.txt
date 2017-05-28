@@ -1,0 +1,4 @@
+GetDepartureTime When is the next train from {departure_station}
+GetDepartureTime When is the next train departing after {time} from {departure_station}
+GetDepartureTime When is the first train departing after {time} from {departure_station}
+GetDepartureTime When does the train from {departure_station} leave

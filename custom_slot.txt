@@ -1,0 +1,4 @@
+type: list_of_stations
+values:
+summit
+murray hill

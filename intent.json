@@ -1,0 +1,17 @@
+{
+  "intents": [
+    {
+      "intent": "GetDepartureTime",
+      "slots": [
+        {
+          "name": "departure_station",
+          "type": "list_of_stations"
+        },
+        {
+          "name": "time",
+          "type": "AMAZON.TIME"
+        }
+      ]
+    }
+  ]
+}
