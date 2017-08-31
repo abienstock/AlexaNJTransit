@@ -42,7 +42,7 @@ def get_welcome_response():
 
     session_attributes = {}
     card_title = "Welcome"
-    speech_output = "Welcome to the NJ Transit Train Schedule skill. " \
+    speech_output = "Welcome to the NJ Transit Train Schedule skill. test" \
                     
     reprompt_text=None
     should_end_session = False
@@ -70,8 +70,8 @@ def get_departure_time(intent, session):
     if 'summit' == intent['slots']['departure_station']['value']:
         r = requests.get('https://maps.googleapis.com/maps/api/directions/json?origin=summit+train+station&destination=NY+Penn+Station&mode=transit&key=AIzaSyAWv6PmXp0F-wowMZK-_OIMmmcl0vjBDLQ')
         directions_result = r.json()     
-        speech_output = directions_result['routes'][0]['legs'][0]['steps'][1]['transit_details']['departure_time']['text']
-        #speech_output = 'summit'
+        speech_output = directions_result['routes'][0]['legs'][0]['steps'][0]['transit_details']['departure_time']['text']
+        
     elif 'Murray hill' == intent['slots']['departure_station']['value']:
         r = requests.get('https://maps.googleapis.com/maps/api/directions/json?origin=murray+hill+train+station&destination=NY+Penn+Station&mode=transit&key=AIzaSyAWv6PmXp0F-wowMZK-_OIMmmcl0vjBDLQ')
         directions_result = r.json()        
