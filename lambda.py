@@ -68,17 +68,35 @@ def get_departure_time(intent, session):
     
     
     if 'summit' == intent['slots']['departure_station']['value']:
-        r = requests.get('https://maps.googleapis.com/maps/api/directions/json?origin=summit+train+station&destination=NY+Penn+Station&mode=transit&key=AIzaSyAWv6PmXp0F-wowMZK-_OIMmmcl0vjBDLQ')
-        directions_result = r.json()     
-        speech_output = directions_result['routes'][0]['legs'][0]['steps'][0]['transit_details']['departure_time']['text']
+        speech_output = "Trains departing summit station at "
+        r = requests.get('https://maps.googleapis.com/maps/api/directions/json?origin=summit+train+station&destination=NY+Penn+Station&mode=transit&alternatives=true&key=AIzaSyAWv6PmXp0F-wowMZK-_OIMmmcl0vjBDLQ')
+        directions_result = r.json()
+        first = True
+        for route in directions_result['routes']:
+            for step in route['legs'][0]['steps']:
+                if 'Train' in step['html_instructions']:
+                    if not first:
+                        speech_output += ' and '
+                    speech_output += step['transit_details']['departure_time']['text']
+                    first = False
+                    break
         
     elif 'Murray hill' == intent['slots']['departure_station']['value']:
-        r = requests.get('https://maps.googleapis.com/maps/api/directions/json?origin=murray+hill+train+station&destination=NY+Penn+Station&mode=transit&key=AIzaSyAWv6PmXp0F-wowMZK-_OIMmmcl0vjBDLQ')
+        speech_output = "Trains departing summit station at "
+        r = requests.get('https://maps.googleapis.com/maps/api/directions/json?origin=murray+hill+train+station&destination=NY+Penn+Station&mode=transit&alternatives=true&key=AIzaSyAWv6PmXp0F-wowMZK-_OIMmmcl0vjBDLQ')
         directions_result = r.json()        
-        speech_output = directions_result['routes'][0]['legs'][0]['steps'][0]['transit_details']['departure_time']['text']        
+        first = True
+        for route in directions_result['routes']:
+            for step in route['legs'][0]['steps']:
+                if 'Train' in step['html_instructions']:
+                    if not first:
+                        speech_output += ' and '
+                    speech_output += step['transit_details']['departure_time']['text']
+                    first = False
+                    break
     else:
-        speech_output = 'you fucked up'
-    reprompt_text=None
+        speech_output = 'Sorry, there was an error in your request.'
+    reprompt_text = None
     
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
